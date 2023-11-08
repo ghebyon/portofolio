@@ -1,12 +1,18 @@
-FROM node:16-buster
-RUN mkdir /app
-COPY package.json /app/
-WORKDIR /app
-COPY . ./
+FROM node:18-alpine as builder
+WORKDIR /portofolio
 
-ENV NEXT_PUBLIC_APP_URL=https://www.mydomain.com
-
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
 RUN npm run build
-EXPOSE 4000
-CMD ["npm", "run","start"]
+
+FROM node:18-alpine as runner
+WORKDIR /portofolio
+COPY --from=builder /portofolio/package.json .
+COPY --from=builder /portofolio/package-lock.json .
+COPY --from=builder /portofolio/next.config.js ./
+COPY --from=builder /portofolio/public ./public
+COPY --from=builder /portofolio/.next/standalone ./
+COPY --from=builder /portofolio/.next/static ./.next/static
+EXPOSE 3000
+ENTRYPOINT ["npm", "start"]rt"]
