@@ -15,4 +15,4 @@ COPY --from=builder /portofolio/public ./public
 COPY --from=builder /portofolio/.next/standalone ./
 COPY --from=builder /portofolio/.next/static ./.next/static
 EXPOSE 8080
-ENTRYPOINT ["npm", "start"]rt"]
+ENTRYPOINT ["npm", "run", "start"]
