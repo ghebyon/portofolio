@@ -14,5 +14,5 @@ COPY --from=builder /portofolio/next.config.js ./
 COPY --from=builder /portofolio/public ./public
 COPY --from=builder /portofolio/.next/standalone ./
 COPY --from=builder /portofolio/.next/static ./.next/static
-EXPOSE 3000
+EXPOSE 8080
 ENTRYPOINT ["npm", "start"]rt"]
